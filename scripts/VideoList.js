@@ -19,13 +19,16 @@ const VideoList = (function(){
   const decorateHTML = function(data){
     return `
         <div>           
-          <img class="video-thumbnail-image" id="${id}" src="${thumbnail}">
-          <button><a href="https://www.youtube.com/channel/${channelId}">More from ${channelTitle}</a></button>
+          <img class="video-thumbnail-image" id="${data.id}" src="${data.thumbnail}">
+          <button><a href="https://www.youtube.com/channel/${data.channelId}">More from ${data.channelTitle}</a></button>
         </div>
         `;
 
   };
 
+  const render = () => {
+    createHtml(STORE.videos);
+  }
 
   const handleFormSubmit = () => {
     $('.js-search-form').submit(function(event) {
@@ -34,11 +37,18 @@ const VideoList = (function(){
       API.fetchVideos(value);
       $('.js-query').val('');
       $('.player').html('');
+      render();
     });
   };
+
+  const bindEventListeners = function(){
+    handleFormSubmit();
+    handleImageClick();
+  };
+  
   return {
-    handleFormSubmit,
-    handleImageClick,
-    createHtml
+    bindEventListeners,
+    createHtml,
+    render
   };
 }());
