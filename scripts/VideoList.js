@@ -10,25 +10,35 @@ const VideoList = (function(){
   const generateEmbedLink = (id) => {
     return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   };
-  
-  //create the html
-  
-  //reset the form
-  
-  //clear results
-  //listen for form submit (submit, prevent default, generate a url)
-  
+
+  const createHtml = (data) => {
+    const array = data.map(video => decorateHTML(video));    
+    $('.js-search-results').html(array.join(''));
+  };
+ 
+  const decorateHTML = function(data){
+    return `
+        <div>           
+          <img class="video-thumbnail-image" id="${id}" src="${thumbnail}">
+          <button><a href="https://www.youtube.com/channel/${channelId}">More from ${channelTitle}</a></button>
+        </div>
+        `;
+
+  };
+
+
   const handleFormSubmit = () => {
     $('.js-search-form').submit(function(event) {
       event.preventDefault();
       const value = $('.js-query').val();
-      searchGoogle(value);
+      API.fetchVideos(value);
       $('.js-query').val('');
       $('.player').html('');
     });
   };
   return {
     handleFormSubmit,
-    handleImageClick
+    handleImageClick,
+    createHtml
   };
 }());

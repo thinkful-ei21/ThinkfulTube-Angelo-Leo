@@ -2,8 +2,7 @@
 const STORE = (function(){
   const videos = [];
   const setVideos = function(videos){
-    //this.videos= videos;
-    console.log(videos);
+    this.videos= videos;
   };
   return {
     setVideos
